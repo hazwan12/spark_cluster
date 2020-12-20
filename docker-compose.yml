@@ -1,0 +1,40 @@
+version: '3.4'
+
+services:
+  spark-master:
+    image: spark-master:3.0.1
+    container_name: spark-master
+    ports: 
+      - 8080:8080
+      - 7070:7070
+  spark-slave-1:
+    image: spark-slave:3.0.1
+    container_name: spark-slave-1
+    ports:
+      - 8081:8081
+    depends_on: 
+      - spark-master
+  spark-slave-2:
+    image: spark-slave:3.0.1
+    container_name: spark-slave-2
+    ports:
+      - 8082:8081
+    depends_on: 
+      - spark-master
+  spark-slave-3:
+    image: spark-slave:3.0.1
+    container_name: spark-slave-3
+    ports:
+      - 8083:8081
+    depends_on: 
+      - spark-master
+  spark-client:
+    image: spark-base:3.0.1
+    container_name: spark-client
+    ports: 
+        - 4040:4040
+        - 8001:8001
+    stdin_open: true
+    tty: true
+    depends_on: 
+      - spark-master
